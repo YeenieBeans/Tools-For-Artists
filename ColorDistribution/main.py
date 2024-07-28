@@ -17,16 +17,17 @@ Hey there, I'm [YeenieBeans](https://x.com/YeenieBeans)!
 
 This tool helps you discover the color composition of your images. Upload an image, select the number of colors to identify, and adjust the sensitivity for similar colors. You'll get a chart showing the colors and their percentages so you can understand the main colors in your pictures.
 
-
----
-
-
 **NOTES:** 
 * Uploaded images are analyzed using premade algorithms that are not trained on AI, and any images that are uploaded will not be used to train AI.
   * **DEVELOPER STATEMENT:** I (YeenieBeans) am against the use of creative work for the purposes of training AI when the artist(s) involved do not give the developer(s) informed consent.
 * Uploaded images are stored temporarily and will be deleted when the app session ends.
 * The app session may expire, which will result in the loss of uploaded images. To keep images, manually download them before the session ends.
+
+---
+
 """)
+
+
 
 # Description of the optimal distribution table
 st.subheader('Optimal Distribution of Colors')
@@ -146,6 +147,15 @@ if uploaded_file is not None:
         ax.set_xlim(0, 1)
         ax.axis('off')
         st.pyplot(fig)
-
+    
+    st.markdown("""
+    ---
+    **Number of Colors:**: 
+    Select the number of distinct colors you want the tool to identify in your uploaded image. 
+    
+    **Color Sensitivity:**:  
+    Adjust the sensitivity to determine how similar colors are grouped together. Higher sensitivity means more similar colors will be merged, resulting in broader color categories.
+    
+    """)
     merged_colors, merged_counts = get_colors(img, num_colors, sensitivity_dict[sensitivity])
     plot_colors(merged_colors, merged_counts)
