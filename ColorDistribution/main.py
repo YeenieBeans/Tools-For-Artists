@@ -57,17 +57,17 @@ st.table(df)
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
 
-    st.markdown("""
-    ---
-    **Number of Colors:** 
-    
-    Select the number of distinct colors you want the tool to identify in your uploaded image. 
-    
-    **Color Sensitivity:**
-    
-    Adjust the sensitivity to determine how similar colors are grouped together. Higher sensitivity means more similar colors will be merged, resulting in broader color categories.
-    
-    """)
+st.markdown("""
+---
+**Number of Colors:** 
+
+Select the number of distinct colors you want the tool to identify in your uploaded image. 
+
+**Color Sensitivity:**
+
+Adjust the sensitivity to determine how similar colors are grouped together. Higher sensitivity means more similar colors will be merged, resulting in broader color categories.
+
+""")
 
 if uploaded_file is not None:
     img = io.imread(uploaded_file)
