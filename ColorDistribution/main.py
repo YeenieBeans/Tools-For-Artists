@@ -17,6 +17,7 @@ Hey there, I'm [YeenieBeans](https://x.com/YeenieBeans)!
 
 This tool helps you discover the color composition of your images. Upload an image, select the number of colors to identify, and adjust the sensitivity for similar colors. You'll get a chart showing the colors and their percentages so you can understand the main colors in your pictures.
 
+---
 **NOTES:** 
 * Uploaded images are analyzed using premade algorithms that are not trained on AI, and any images that are uploaded will not be used to train AI.
   * **DEVELOPER STATEMENT:** I (YeenieBeans) am against the use of creative work for the purposes of training AI when the artist(s) involved do not give the developer(s) informed consent.
