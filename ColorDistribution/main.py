@@ -18,8 +18,21 @@ if uploaded_file is not None:
     sensitivity_dict = {'Very Low': 0, 'Low': 1, 'Medium': 2, 'High': 3, 'Very High': 4}
 
     def get_colors(image, num_colors, sensitivity):
+        print(f"Original image shape: {image.shape}")
+        if len(image.shape) == 2:
+            # Grayscale image
+            image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB)
+        elif image.shape[2] == 4:
+            # Image with alpha channel
+            image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+
         resized_image = cv2.resize(image, (600, 400))
+        print(f"Resized image shape: {resized_image.shape}")
+
+        # Flatten the image
         resized_image = resized_image.reshape((resized_image.shape[0] * resized_image.shape[1], 3))
+        print(f"Reshaped image shape: {resized_image.shape}")
+
         kmeans = KMeans(n_clusters=num_colors, n_init=10)
         kmeans.fit(resized_image)
         cluster_centers = kmeans.cluster_centers_
