@@ -8,6 +8,28 @@ import cv2
 
 st.title('Color Distribution Tool')
 
+# Description of the optimal distribution table
+st.subheader('Optimal Distribution of Colors')
+st.write("The table below shows the optimal distribution of colors for different numbers of colors. This helps in understanding the ideal percentage each color should occupy in an image based on the total number of colors identified.")
+
+# Data for the table
+data = {
+    '# of Colors': ['3 COLORS', '4 COLORS', '5 COLORS', '6 COLORS', '7 COLORS', '8 COLORS', '9 COLORS', '10 COLORS'],
+    'Optimal Distribution of Colors': [
+        '60% | 30% | 10%',
+        '55% | 25% | 15% | 5%',
+        '50% | 20% | 15% | 10% | 5%',
+        '45% | 20% | 15% | 10% | 5% | 5%',
+        '40% | 20% | 15% | 10% | 5% | 5% | 5%',
+        '35% | 20% | 15% | 10% | 5% | 5% | 5% | 5%',
+        '35% | 20% | 15% | 10% | 5% | 5% | 4% | 3% | 3%',
+        '30% | 20% | 15% | 10% | 5% | 5% | 5% | 4% | 3% | 3%'
+    ]
+}
+
+# Convert the data to a DataFrame
+df = pd.DataFrame(data)
+
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
