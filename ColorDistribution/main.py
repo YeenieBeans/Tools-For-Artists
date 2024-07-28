@@ -57,19 +57,6 @@ st.table(df)
 
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
-
-st.markdown("""
----
-**Number of Colors:** 
-
-Select the number of distinct colors you want the tool to identify in your uploaded image. 
-
-**Color Sensitivity:**
-
-Adjust the sensitivity to determine how similar colors are grouped together. Higher sensitivity means more similar colors will be merged, resulting in broader color categories.
-
-""")
-
 if uploaded_file is not None:
     img = io.imread(uploaded_file)
     st.image(img, caption='Uploaded Image', use_column_width=True)
@@ -77,6 +64,19 @@ if uploaded_file is not None:
     sensitivity = st.selectbox("Color Sensitivity", ['Very Low', 'Low', 'Medium', 'High', 'Very High'])
     sensitivity_dict = {'Very Low': 0, 'Low': 1, 'Medium': 2, 'High': 3, 'Very High': 4}
 
+    st.markdown("""
+    ---
+    **Number of Colors:** 
+    
+    Select the number of distinct colors you want the tool to identify in your uploaded image. 
+    
+    **Color Sensitivity:**
+    
+    Adjust the sensitivity to determine how similar colors are grouped together. Higher sensitivity means more similar colors will be merged, resulting in broader color categories.
+    
+    """)
+
+ 
     def get_colors(image, num_colors, sensitivity):
         print(f"Original image shape: {image.shape}")
         if len(image.shape) == 2:
