@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage import io
@@ -6,7 +7,26 @@ from sklearn.cluster import KMeans
 from collections import Counter
 import cv2
 
-st.title('Color Distribution Tool')
+# Welcome message
+st.markdown("""
+# 👋🏾 **Welcome!**
+
+Hey there, I'm [YeenieBeans](https://x.com/YeenieBeans)!
+
+This tool helps you discover the color composition of your images. Upload an image, select the number of colors to identify, and adjust the sensitivity for similar colors. You'll get a chart showing the colors and their percentages so you can understand the main colors in your pictures.
+
+<br>
+
+---
+
+<br>
+
+**NOTES:** 
+* Uploaded images are analyzed using premade algorithms that are not trained on AI, and any images that are uploaded will not be used to train AI.
+  * **DEVELOPER STATEMENT:** I (YeenieBeans) am against the use of creative work for the purposes of training AI when the artist(s) involved do not give the developer(s) informed consent.
+* Uploaded images are stored temporarily and will be deleted when the app session ends.
+* The app session may expire, which will result in the loss of uploaded images. To keep images, manually download them before the session ends.
+""")
 
 # Description of the optimal distribution table
 st.subheader('Optimal Distribution of Colors')
@@ -29,6 +49,9 @@ data = {
 
 # Convert the data to a DataFrame
 df = pd.DataFrame(data)
+
+# Display the table
+st.table(df)
 
 uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg"])
 
