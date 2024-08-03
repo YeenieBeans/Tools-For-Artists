@@ -9,7 +9,7 @@ size = 10
 colors = {
     "lavender": "#9876B6",
     "obsidian": "#222326",
-    "desaturated_cream": "#E6E7C9",  # Updated to #E6E7C9
+    "desaturated_cream": "#E6E7C9",  # More desaturated cream
     "lime": "#D6DC82",
     "cherry": "#DE6072",
     "gray_fill": "#CFCFCF",
@@ -171,24 +171,27 @@ st.markdown("""
 Welcome to the 3D Artistic Alignment Plot! This tool helps you visualize where you and your friends align in a three-dimensional artistic space based on realism, ferality, and detail. Adjust the sliders to find your place in the style spectrum, and see how you compare to others!
 """)
 
-# SECTION ONE: Your Artistic Alignment
+# SECTION ONE: Discover Your Artistic Alignment
 st.header("Discover Your Artistic Alignment")
 st.markdown("Use the sliders to determine your position on the style spectrum and see where you align in the 3D space.")
 
-# Create columns for input
-col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
+# User name and color input on one line
+col1, col2 = st.columns([3, 1])
 username = col1.text_input("Name", "")
+user_color = col2.color_picker("Pick a color", value=colors['user_point'])
 
-# Define sliders with custom labels and remove number display
-x_value = col2.slider("Realistic — Cartoony", -10, 10, 0, format=" ",  # Format is empty to hide numbers
-                      help="Your level of realistic vs. cartoon style")
-y_value = col3.slider("Feral — Anthro", -10, 10, 0, format=" ",
-                      help="Your level of feral vs. anthro style")
-z_value = col4.slider("Simple — Detailed", -10, 10, 0, format=" ",
-                      help="Your level of simplicity vs. detail")
+# Sliders on a new line
+x_value = st.slider("Realistic — Cartoony", -10, 10, 0, format=" ",
+                    help="Your level of realistic vs. cartoon style")
+st.write(f"**Current Value:** {x_value}")
 
-# Add color picker for user point
-user_color = col5.color_picker("Pick a color", value=colors['user_point'])
+y_value = st.slider("Feral — Anthro", -10, 10, 0, format=" ",
+                    help="Your level of feral vs. anthro style")
+st.write(f"**Current Value:** {y_value}")
+
+z_value = st.slider("Simple — Detailed", -10, 10, 0, format=" ",
+                    help="Your level of simplicity vs. detail")
+st.write(f"**Current Value:** {z_value}")
 
 st.markdown("")
 
@@ -209,15 +212,15 @@ st.markdown("---")
 st.header("Add Your Friends")
 st.markdown("Add your friends to the artistic style alignment plot.")
 
-# Create columns for friend input
-friend_col1, friend_col2, friend_col3, friend_col4, friend_col5 = st.columns([1, 1, 1, 1, 1])
+# Friend name and color input on one line
+friend_col1, friend_col2 = st.columns([3, 1])
 friend_name = friend_col1.text_input("Friend's Name")
-friend_x = friend_col2.number_input("Realistic — Cartoony", value=0)
-friend_y = friend_col3.number_input("Feral — Anthro", value=0)
-friend_z = friend_col4.number_input("Simple — Detailed", value=0)
+friend_color = friend_col2.color_picker("Pick a color", value=colors['friend_point'])
 
-# Add color picker for friend point
-friend_color = friend_col5.color_picker("Pick a color", value=colors['friend_point'])
+# Friend axes inputs on a new line
+friend_x = st.number_input("Realistic — Cartoony", value=0)
+friend_y = st.number_input("Feral — Anthro", value=0)
+friend_z = st.number_input("Simple — Detailed", value=0)
 
 friend_data = st.empty()  # Placeholder for friend data
 
