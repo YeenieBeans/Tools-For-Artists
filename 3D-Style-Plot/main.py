@@ -180,12 +180,12 @@ col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 username = col1.text_input("Name", "")
 
 # Define sliders with custom labels
-x_value = col2.slider("Realism Level", -10, 10, 0, format="%d",
-                      help="Determine your level of realism vs. cartoon style")
+x_value = col2.slider("Realistic ↔ Cartoony", -10, 10, 0, format="%d",
+                      help="Your level of realistic vs. cartoon style")
 y_value = col3.slider("Feral ↔ Anthro", -10, 10, 0, format="%d",
-                      help="Determine your level of ferality vs. anthropomorphism")
-z_value = col4.slider("Detail Level", -10, 10, 0, format="%d",
-                      help="Determine your level of simplicity vs. detail")
+                      help="Your level of feral vs. anthro style")
+z_value = col4.slider("Simple ↔ Detailed", -10, 10, 0, format="%d",
+                      help="Your level of simplicity vs. detail")
 
 # Centered labels above sliders
 st.write("Centered labels for sliders")
@@ -258,6 +258,6 @@ st.markdown("---")
 
 # SECTION THREE: Artistic Style Alignment
 st.header("Artistic Style Alignment")
-st.markdown("(This is an interactive plot you can drag! View options are in the upper-right corner.)")
+st.markdown("This is an interactive plot you can drag around! View options are in the upper-right corner.")
 st.plotly_chart(plot, use_container_width=True)
 
