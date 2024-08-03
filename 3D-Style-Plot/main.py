@@ -9,12 +9,12 @@ size = 10
 colors = {
     "lavender": "#9876B6",
     "obsidian": "#222326",
-    "desaturated_cream": "#E6E6A5",  # More desaturated cream
+    "desaturated_cream": "#E6E7C9",  # Updated to #E6E7C9
     "lime": "#D6DC82",
     "cherry": "#DE6072",
     "gray_fill": "#CFCFCF",
-    "user_point": "#3D2FD0",  # User point color
-    "friend_point": "#B469C4"  # Friend point color
+    "user_point": "#3D2FD0",  # Default User point color
+    "friend_point": "#B469C4"  # Default Friend point color
 }
 
 # Initial Plot Setup
@@ -106,15 +106,15 @@ def create_initial_plot():
         opacity=0.85, showscale=False, hoverinfo="none"
     ))
 
-    # Add text annotations
+    # Add text annotations above the hyperplanes
     fig.add_trace(go.Scatter3d(
         x=[size, -size, 0, 0, 0, 0],
         y=[0, 0, size, -size, 0, 0],
         z=[0, 0, 0, 0, size, -size],
         mode='text',
         text=['Realistic', 'Cartoony', 'Anthro', 'Feral', 'Detailed', 'Simple'],
-        textfont=dict(family='Arial, sans-serif', size=16, color=colors['desaturated_cream']),
-        textposition='middle center',
+        textfont=dict(family='Arial, sans-serif', size=18, color=colors['desaturated_cream']),  # Updated color
+        textposition='top center',  # Centered above the hyperplanes
         hoverinfo="none"
     ))
 
@@ -127,27 +127,27 @@ def create_initial_plot():
         ),
         scene=dict(
             xaxis=dict(nticks=4, range=[-size, size], showbackground=False,
-                title_text='<b>Realistic ↔ Cartoony</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
-                tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
-                showticklabels=False
-            ),
+                       title_text='<b>Realistic — Cartoony</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
+                       tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
+                       showticklabels=False
+                       ),
             yaxis=dict(nticks=4, range=[-size, size], showbackground=False,
-                title_text='<b>Feral ↔ Anthro</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
-                tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
-                showticklabels=False
-            ),
+                       title_text='<b>Feral — Anthro</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
+                       tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
+                       showticklabels=False
+                       ),
             zaxis=dict(nticks=4, range=[-size, size], showbackground=False,
-                title_text='<b>Simple ↔ Detailed</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
-                tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
-                showticklabels=False
-            ),
+                       title_text='<b>Simple — Detailed</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
+                       tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
+                       showticklabels=False
+                       ),
             camera=dict(eye=dict(x=1.5, y=1.5, z=1.5), projection=dict(type='perspective')),
             dragmode='orbit',
             bgcolor=colors['obsidian']
         ),
         annotations=[
             dict(
-                text='Made by <a href="https://x.com/yeeniebeans" style="color:#6AC769; size=18"><b>YeenieBeans</b></a>',
+                text='Made by <a href="https://x.com/yeeniebeans" style="color:#9876B6; size=18"><b>YeenieBeans</b></a>',
                 x=0.5, y=0.01,  # Adjusted to be slightly below the title
                 xref='paper', yref='paper',
                 showarrow=False,
@@ -176,16 +176,19 @@ st.header("Discover Your Artistic Alignment")
 st.markdown("Use the sliders to determine your position on the style spectrum and see where you align in the 3D space.")
 
 # Create columns for input
-col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
+col1, col2, col3, col4, col5 = st.columns([1, 1, 1, 1, 1])
 username = col1.text_input("Name", "")
 
-# Define sliders with custom labels
-x_value = col2.slider("Realistic ↔ Cartoony", -10, 10, 0, format="%d",
+# Define sliders with custom labels and remove number display
+x_value = col2.slider("Realistic — Cartoony", -10, 10, 0, format=" ",  # Format is empty to hide numbers
                       help="Your level of realistic vs. cartoon style")
-y_value = col3.slider("Feral ↔ Anthro", -10, 10, 0, format="%d",
+y_value = col3.slider("Feral — Anthro", -10, 10, 0, format=" ",
                       help="Your level of feral vs. anthro style")
-z_value = col4.slider("Simple ↔ Detailed", -10, 10, 0, format="%d",
+z_value = col4.slider("Simple — Detailed", -10, 10, 0, format=" ",
                       help="Your level of simplicity vs. detail")
+
+# Add color picker for user point
+user_color = col5.color_picker("Pick a color", value=colors['user_point'])
 
 st.markdown("")
 
@@ -193,7 +196,7 @@ if st.button("Submit"):
     plot.add_trace(go.Scatter3d(
         x=[x_value], y=[y_value], z=[z_value],
         mode='markers+text',
-        marker=dict(size=8, color=colors['user_point']),
+        marker=dict(size=8, color=user_color),  # Use selected color
         text=[f"{username}"],
         textposition='top center',
         hoverinfo="none"
@@ -207,11 +210,14 @@ st.header("Add Your Friends")
 st.markdown("Add your friends to the artistic style alignment plot.")
 
 # Create columns for friend input
-friend_col1, friend_col2, friend_col3, friend_col4 = st.columns([1, 1, 1, 1])
+friend_col1, friend_col2, friend_col3, friend_col4, friend_col5 = st.columns([1, 1, 1, 1, 1])
 friend_name = friend_col1.text_input("Friend's Name")
-friend_x = friend_col2.number_input("Realistic ↔ Cartoony", value=0)
-friend_y = friend_col3.number_input("Feral ↔ Anthro", value=0)
-friend_z = friend_col4.number_input("Simple ↔ Detailed", value=0)
+friend_x = friend_col2.number_input("Realistic — Cartoony", value=0)
+friend_y = friend_col3.number_input("Feral — Anthro", value=0)
+friend_z = friend_col4.number_input("Simple — Detailed", value=0)
+
+# Add color picker for friend point
+friend_color = friend_col5.color_picker("Pick a color", value=colors['friend_point'])
 
 friend_data = st.empty()  # Placeholder for friend data
 
@@ -220,13 +226,14 @@ if 'friends' not in st.session_state:
     st.session_state['friends'] = []
 
 if st.button("Add Friend"):
-    st.session_state['friends'].append((friend_name, friend_x, friend_y, friend_z))
-    friend_data.write(st.session_state['friends'])
+    st.session_state['friends'].append((friend_name, friend_x, friend_y, friend_z, friend_color))
+    # Display friend data as a list
+    friend_data.write([f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']])
 
     plot.add_trace(go.Scatter3d(
         x=[friend_x], y=[friend_y], z=[friend_z],
         mode='markers+text',
-        marker=dict(size=6, color=colors['friend_point']),
+        marker=dict(size=6, color=friend_color),  # Use selected color
         text=[f"{friend_name}"],
         textposition='top center',
         hoverinfo="none"
@@ -234,18 +241,27 @@ if st.button("Add Friend"):
 
 # Display current friend data and allow removal by double-clicking
 st.write("Current Friends:")
-friend_box = st.multiselect("", st.session_state['friends'], format_func=lambda x: f"{x[0]}: ({x[1]}, {x[2]}, {x[3]})")
+friend_box = st.multiselect("", [f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']])
 
 # Remove friend on double-click
 for selected in friend_box:
-    st.session_state['friends'].remove(selected)
+    selected_name = selected.split(" ")[0]
+    st.session_state['friends'] = [f for f in st.session_state['friends'] if f[0] != selected_name]
     # Redraw the plot without the removed friend's point
     plot = create_initial_plot()
+    plot.add_trace(go.Scatter3d(
+        x=[x_value], y=[y_value], z=[z_value],
+        mode='markers+text',
+        marker=dict(size=8, color=user_color),
+        text=[f"{username}"],
+        textposition='top center',
+        hoverinfo="none"
+    ))
     for friend in st.session_state['friends']:
         plot.add_trace(go.Scatter3d(
             x=[friend[1]], y=[friend[2]], z=[friend[3]],
             mode='markers+text',
-            marker=dict(size=6, color=colors['friend_point']),
+            marker=dict(size=6, color=friend[4]),
             text=[f"{friend[0]}"],
             textposition='top center',
             hoverinfo="none"
@@ -257,4 +273,3 @@ st.markdown("---")
 st.header("Artistic Style Alignment")
 st.markdown("This is an interactive plot you can drag around! View options are in the upper-right corner.")
 st.plotly_chart(plot, use_container_width=True)
-
