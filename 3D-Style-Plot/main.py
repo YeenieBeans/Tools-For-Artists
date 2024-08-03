@@ -258,5 +258,6 @@ st.markdown("---")
 
 # SECTION THREE: Artistic Style Alignment
 st.header("Artistic Style Alignment")
-st.plotly_chart(plot, use_container_width=True)
 st.markdown("(This is an interactive plot you can drag! View options are in the upper-right corner.)")
+st.plotly_chart(plot, use_container_width=True)
+
