@@ -1,4 +1,4 @@
-import streamlit as st
+erimport streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 
@@ -147,11 +147,11 @@ def create_initial_plot():
         ),
         annotations=[
             dict(
-                text='<a href="https://x.com/yeeniebeans" style="color:#9876B6;">Made by YeenieBeans</a>',
+                text='Made by <a href="https://x.com/yeeniebeans" style="color:#6AC769; size=18"><b>YeenieBeans</b></a>',
                 x=0.5, y=0.01,  # Adjusted to be slightly below the title
                 xref='paper', yref='paper',
                 showarrow=False,
-                font=dict(size=14, color=colors['lavender']),
+                font=dict(size=14, color='#fafae9'),
                 align='center'
             )
         ],
