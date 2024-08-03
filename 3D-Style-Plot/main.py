@@ -168,12 +168,12 @@ plot = create_initial_plot()
 # Streamlit App Setup
 st.title("3D Artistic Alignment Plot")
 st.markdown("""
-Welcome to the 3D Artistic Alignment Plot! This tool helps you visualize where you and your friends align in a three-dimensional artistic space based on realism, ferality, and detail. Adjust the sliders to find your place in the artistic spectrum, and see how you compare to others!
+Welcome to the 3D Artistic Alignment Plot! This tool helps you visualize where you and your friends align in a three-dimensional artistic space based on realism, ferality, and detail. Adjust the sliders to find your place in the style spectrum, and see how you compare to others!
 """)
 
 # SECTION ONE: Your Artistic Alignment
 st.header("Discover Your Artistic Alignment")
-st.markdown("Use the sliders to determine your position on the artistic spectrum and see where you align in the 3D space.")
+st.markdown("Use the sliders to determine your position on the style spectrum and see where you align in the 3D space.")
 
 # Create columns for input
 col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
