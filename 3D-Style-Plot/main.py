@@ -187,9 +187,6 @@ y_value = col3.slider("Feral ↔ Anthro", -10, 10, 0, format="%d",
 z_value = col4.slider("Simple ↔ Detailed", -10, 10, 0, format="%d",
                       help="Your level of simplicity vs. detail")
 
-# Centered labels above sliders
-st.write("Centered labels for sliders")
-
 st.markdown("")
 
 if st.button("Submit"):
