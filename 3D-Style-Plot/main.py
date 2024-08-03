@@ -126,7 +126,34 @@ def create_initial_plot():
     )
     return fig
 
-plot = create_initial_plot()
+def update_plot():
+    fig = create_initial_plot()
+
+    # Add the user point if available
+    if 'user' in st.session_state:
+        user_data = st.session_state['user']
+        fig.add_trace(go.Scatter3d(
+            x=[user_data['x']], y=[user_data['y']], z=[user_data['z']],
+            mode='markers+text',
+            marker=dict(size=8, color=user_data['color']),
+            text=[user_data['name']],
+            textposition='top center',
+            hoverinfo="none"
+        ))
+
+    # Add friends if available
+    for friend in st.session_state['friends']:
+        if friend['show']:
+            fig.add_trace(go.Scatter3d(
+                x=[friend['x']], y=[friend['y']], z=[friend['z']],
+                mode='markers+text',
+                marker=dict(size=6, color=friend['color']),
+                text=[friend['name']],
+                textposition='top center',
+                hoverinfo="none"
+            ))
+
+    return fig
 
 # Streamlit App Setup
 st.title("3D Artistic Alignment Plot")
@@ -158,17 +185,15 @@ st.markdown("<style>div.row-widget.stSlider { margin-bottom: -10px; }</style>", 
 
 if st.button("Submit"):
     if username:
-        plot.add_trace(go.Scatter3d(
-            x=[x_value], y=[y_value], z=[z_value],
-            mode='markers+text',
-            marker=dict(size=8, color=user_color),
-            text=[f"{username}"],
-            textposition='top center',
-            hoverinfo="none"
-        ))
+        # Store user data
+        st.session_state['user'] = {
+            'name': username,
+            'x': x_value,
+            'y': y_value,
+            'z': z_value,
+            'color': user_color
+        }
         st.write(f"Your alignment is ({x_value}, {y_value}, {z_value}).")
-    else:
-        st.warning("Please enter a name before submitting.")
 
 st.markdown("---")
 
@@ -186,59 +211,36 @@ friend_x = col1.number_input("Realistic — Cartoony", value=0, key="friend_inpu
 friend_y = col2.number_input("Feral — Anthro", value=0, key="friend_input_y")
 friend_z = col3.number_input("Simple — Detailed", value=0, key="friend_input_z")
 
-friend_data = st.empty()  # Placeholder for friend data
-
-# Store friend data
 if 'friends' not in st.session_state:
     st.session_state['friends'] = []
 
 if st.button("Add Friend"):
     if friend_name:
-        st.session_state['friends'].append((friend_name, friend_x, friend_y, friend_z, friend_color))
-        friend_data.write([f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']])
-
-        plot.add_trace(go.Scatter3d(
-            x=[friend_x], y=[friend_y], z=[friend_z],
-            mode='markers+text',
-            marker=dict(size=6, color=friend_color),
-            text=[f"{friend_name}"],
-            textposition='top center',
-            hoverinfo="none"
-        ))
+        st.session_state['friends'].append({
+            'name': friend_name,
+            'x': friend_x,
+            'y': friend_y,
+            'z': friend_z,
+            'color': friend_color,
+            'show': True
+        })
     else:
         st.warning("Please enter your friend's name before adding.")
 
-# Display current friends and allow removal
+# Display current friends and manage visibility
 st.write("Current Friends:")
-friend_box = st.multiselect("", [f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']], key="friend_list")
-
-# Remove friend
-for selected in friend_box:
-    selected_name = selected.split(" ")[0]
-    st.session_state['friends'] = [f for f in st.session_state['friends'] if f[0] != selected_name]
-    # Redraw plot
-    plot = create_initial_plot()
-    plot.add_trace(go.Scatter3d(
-        x=[x_value], y=[y_value], z=[z_value],
-        mode='markers+text',
-        marker=dict(size=8, color=user_color),
-        text=[f"{username}"],
-        textposition='top center',
-        hoverinfo="none"
-    ))
-    for friend in st.session_state['friends']:
-        plot.add_trace(go.Scatter3d(
-            x=[friend[1]], y=[friend[2]], z=[friend[3]],
-            mode='markers+text',
-            marker=dict(size=6, color=friend[4]),
-            text=[f"{friend[0]}"],
-            textposition='top center',
-            hoverinfo="none"
-        ))
+if st.session_state['friends']:
+    friends_checklist = st.session_state['friends']
+    for i, friend in enumerate(friends_checklist):
+        is_checked = st.checkbox(f"{friend['name']} ({friend['x']}, {friend['y']}, {friend['z']})", key=f"friend_{i}_check", value=friend['show'])
+        friends_checklist[i]['show'] = is_checked
 
 st.markdown("---")
 
 # SECTION THREE: Artistic Style Alignment
 st.header("Artistic Style Alignment")
 st.markdown("This is an interactive plot you can drag around! View options are in the upper-right corner.")
+
+# Create and display plot
+plot = update_plot()
 st.plotly_chart(plot, use_container_width=True)
