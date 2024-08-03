@@ -182,33 +182,35 @@ user_color = col2.color_picker("Pick a color", value=colors['user_point'])
 
 # Sliders on a new line with labels
 col1, col2, col3 = st.columns(3)
-x_value = col1.slider("Realistic — Cartoony", -10, 10, 0, format=" ",
+x_value = col1.slider("", -10, 10, 0, format="%d",
                       help="Your level of realistic vs. cartoon style")
-col1.text("Realistic -10 | 0 | 10 Cartoony")  # Min, mid, max labels
-col1.write(f"**{x_value}**")
+col1.markdown(f"<div style='text-align: center;'>{x_value}</div>", unsafe_allow_html=True)  # Display the value directly below
 
-y_value = col2.slider("Feral — Anthro", -10, 10, 0, format=" ",
+y_value = col2.slider("", -10, 10, 0, format="%d",
                       help="Your level of feral vs. anthro style")
-col2.text("Feral -10 | 0 | 10 Anthro")  # Min, mid, max labels
-col2.write(f"**{y_value}**")
+col2.markdown(f"<div style='text-align: center;'>{y_value}</div>", unsafe_allow_html=True)  # Display the value directly below
 
-z_value = col3.slider("Simple — Detailed", -10, 10, 0, format=" ",
+z_value = col3.slider("", -10, 10, 0, format="%d",
                       help="Your level of simplicity vs. detail")
-col3.text("Simple -10 | 0 | 10 Detailed")  # Min, mid, max labels
-col3.write(f"**{z_value}**")
+col3.markdown(f"<div style='text-align: center;'>{z_value}</div>", unsafe_allow_html=True)  # Display the value directly below
 
-st.markdown("")
+# Adjusting vertical spacing
+st.markdown("<style>div.row-widget.stSlider { margin-bottom: -10px; }</style>", unsafe_allow_html=True)
 
+# Button to submit user position
 if st.button("Submit"):
-    plot.add_trace(go.Scatter3d(
-        x=[x_value], y=[y_value], z=[z_value],
-        mode='markers+text',
-        marker=dict(size=8, color=user_color),  # Use selected color
-        text=[f"{username}"],
-        textposition='top center',
-        hoverinfo="none"
-    ))
-    st.write(f"Your alignment is ({x_value}, {y_value}, {z_value}).")
+    if username:  # Ensure there's a username
+        plot.add_trace(go.Scatter3d(
+            x=[x_value], y=[y_value], z=[z_value],
+            mode='markers+text',
+            marker=dict(size=8, color=user_color),  # Use selected color
+            text=[f"{username}"],
+            textposition='top center',
+            hoverinfo="none"
+        ))
+        st.write(f"Your alignment is ({x_value}, {y_value}, {z_value}).")
+    else:
+        st.warning("Please enter a name before submitting.")
 
 st.markdown("---")
 
@@ -223,10 +225,11 @@ friend_color = friend_col2.color_picker("Pick a color", value=colors['friend_poi
 
 # Friend axes inputs on a new line
 col1, col2, col3 = st.columns(3)
-friend_x = col1.number_input("Realistic — Cartoony", value=0)
-friend_y = col2.number_input("Feral — Anthro", value=0)
-friend_z = col3.number_input("Simple — Detailed", value=0)
+friend_x = col1.number_input("", value=0, format="%d")
+friend_y = col2.number_input("", value=0, format="%d")
+friend_z = col3.number_input("", value=0, format="%d")
 
+# Display friend data as a list
 friend_data = st.empty()  # Placeholder for friend data
 
 # Store friend data
@@ -234,18 +237,21 @@ if 'friends' not in st.session_state:
     st.session_state['friends'] = []
 
 if st.button("Add Friend"):
-    st.session_state['friends'].append((friend_name, friend_x, friend_y, friend_z, friend_color))
-    # Display friend data as a list
-    friend_data.write([f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']])
+    if friend_name:  # Ensure there's a friend's name
+        st.session_state['friends'].append((friend_name, friend_x, friend_y, friend_z, friend_color))
+        # Update friend data display
+        friend_data.write([f"{f[0]} ({f[1]}, {f[2]}, {f[3]})" for f in st.session_state['friends']])
 
-    plot.add_trace(go.Scatter3d(
-        x=[friend_x], y=[friend_y], z=[friend_z],
-        mode='markers+text',
-        marker=dict(size=6, color=friend_color),  # Use selected color
-        text=[f"{friend_name}"],
-        textposition='top center',
-        hoverinfo="none"
-    ))
+        plot.add_trace(go.Scatter3d(
+            x=[friend_x], y=[friend_y], z=[friend_z],
+            mode='markers+text',
+            marker=dict(size=6, color=friend_color),  # Use selected color
+            text=[f"{friend_name}"],
+            textposition='top center',
+            hoverinfo="none"
+        ))
+    else:
+        st.warning("Please enter your friend's name before adding.")
 
 # Display current friend data and allow removal by double-clicking
 st.write("Current Friends:")
