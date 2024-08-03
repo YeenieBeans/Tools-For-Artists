@@ -54,7 +54,7 @@ def create_initial_plot():
             mode='lines', line=dict(color=colors['desaturated_cream'], width=2), hoverinfo="none"
         ))
 
-    # Add hyperplanes (remove exterior face colors)
+    # Add hyperplanes
     # X-Y plane
     fig.add_trace(go.Surface(
         x=np.array([[-size, -size], [0, 0]]),
@@ -111,11 +111,10 @@ def create_initial_plot():
         x=[size, -size, 0, 0, 0, 0],
         y=[0, 0, size, -size, 0, 0],
         z=[0, 0, 0, 0, size, -size],
-        mode='text+markers',
+        mode='text',
         text=['Realistic', 'Cartoony', 'Anthro', 'Feral', 'Detailed', 'Simple'],
         textfont=dict(family='Arial, sans-serif', size=16, color=colors['desaturated_cream']),
         textposition='middle center',
-        marker=dict(size=10, symbol='square', opacity=0.0, line=dict(width=2, color=colors['desaturated_cream'])),
         hoverinfo="none"
     ))
 
@@ -156,11 +155,11 @@ def create_initial_plot():
                 align='center'
             ),
             dict(
-                text='<a href="https://x.com/yeeniebeans" style="color:#9876B6;">Made by YeenieBeans</a>',
+                text='Made by <a href="https://x.com/yeeniebeans" style="color:#6AC769; size=18"><b>YeenieBeans</b></a>',
                 x=0.5, y=0.01,  # Adjusted to be slightly below the title
                 xref='paper', yref='paper',
                 showarrow=False,
-                font=dict(size=14, color=colors['lavender']),
+                font=dict(size=14, color='#fafae9'),
                 align='center'
             )
         ],
@@ -206,10 +205,10 @@ st.markdown("---")
 st.header("Add Your Friends to the Artistic Space")
 st.markdown("Invite your friends to the artistic space by entering their names and artistic preferences. See how they compare to you!")
 friend_name = st.text_input("Friend's Name")
-friend_x, friend_y, friend_z = st.columns(3)
-friend_x = friend_x.number_input("Friend's Realistic ↔ Cartoony", value=0)
-friend_y = friend_y.number_input("Friend's Feral ↔ Anthro", value=0)
-friend_z = friend_z.number_input("Friend's Detailed ↔ Simple", value=0)
+col1, col2, col3 = st.columns(3)
+friend_x = col1.number_input("Friend's Realistic ↔ Cartoony", value=0)
+friend_y = col2.number_input("Friend's Feral ↔ Anthro", value=0)
+friend_z = col3.number_input("Friend's Detailed ↔ Simple", value=0)
 
 friend_data = st.empty()  # Placeholder for friend data
 
