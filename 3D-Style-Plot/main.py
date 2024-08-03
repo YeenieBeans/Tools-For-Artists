@@ -23,17 +23,17 @@ def create_initial_plot():
 
     # Add axes
     fig.add_trace(go.Scatter3d(x=[0, size], y=[0, 0], z=[0, 0],
-        mode='lines', line=dict(color=colors['lavender'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['lavender'], width=4), hoverinfo="none"))
     fig.add_trace(go.Scatter3d(x=[0, -size], y=[0, 0], z=[0, 0],
-        mode='lines', line=dict(color=colors['lavender'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['lavender'], width=4), hoverinfo="none"))
     fig.add_trace(go.Scatter3d(x=[0, 0], y=[0, size], z=[0, 0],
-        mode='lines', line=dict(color=colors['lime'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['lime'], width=4), hoverinfo="none"))
     fig.add_trace(go.Scatter3d(x=[0, 0], y=[0, -size], z=[0, 0],
-        mode='lines', line=dict(color=colors['lime'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['lime'], width=4), hoverinfo="none"))
     fig.add_trace(go.Scatter3d(x=[0, 0], y=[0, 0], z=[0, size],
-        mode='lines', line=dict(color=colors['cherry'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['cherry'], width=4), hoverinfo="none"))
     fig.add_trace(go.Scatter3d(x=[0, 0], y=[0, 0], z=[0, -size],
-        mode='lines', line=dict(color=colors['cherry'], width=4), hoverinfo="none"))
+                               mode='lines', line=dict(color=colors['cherry'], width=4), hoverinfo="none"))
 
     # Add cube edges
     cube_vertices = [
@@ -180,18 +180,22 @@ col1, col2 = st.columns([3, 1])
 username = col1.text_input("Name", "")
 user_color = col2.color_picker("Pick a color", value=colors['user_point'])
 
-# Sliders on a new line
-x_value = st.slider("Realistic — Cartoony", -10, 10, 0, format=" ",
-                    help="Your level of realistic vs. cartoon style")
-st.write(f"**Current Value:** {x_value}")
+# Sliders on a new line with labels
+col1, col2, col3 = st.columns(3)
+x_value = col1.slider("Realistic — Cartoony", -10, 10, 0, format=" ",
+                      help="Your level of realistic vs. cartoon style")
+col1.text("Realistic -10 | 0 | 10 Cartoony")  # Min, mid, max labels
+col1.write(f"**{x_value}**")
 
-y_value = st.slider("Feral — Anthro", -10, 10, 0, format=" ",
-                    help="Your level of feral vs. anthro style")
-st.write(f"**Current Value:** {y_value}")
+y_value = col2.slider("Feral — Anthro", -10, 10, 0, format=" ",
+                      help="Your level of feral vs. anthro style")
+col2.text("Feral -10 | 0 | 10 Anthro")  # Min, mid, max labels
+col2.write(f"**{y_value}**")
 
-z_value = st.slider("Simple — Detailed", -10, 10, 0, format=" ",
-                    help="Your level of simplicity vs. detail")
-st.write(f"**Current Value:** {z_value}")
+z_value = col3.slider("Simple — Detailed", -10, 10, 0, format=" ",
+                      help="Your level of simplicity vs. detail")
+col3.text("Simple -10 | 0 | 10 Detailed")  # Min, mid, max labels
+col3.write(f"**{z_value}**")
 
 st.markdown("")
 
@@ -218,9 +222,10 @@ friend_name = friend_col1.text_input("Friend's Name")
 friend_color = friend_col2.color_picker("Pick a color", value=colors['friend_point'])
 
 # Friend axes inputs on a new line
-friend_x = st.number_input("Realistic — Cartoony", value=0)
-friend_y = st.number_input("Feral — Anthro", value=0)
-friend_z = st.number_input("Simple — Detailed", value=0)
+col1, col2, col3 = st.columns(3)
+friend_x = col1.number_input("Realistic — Cartoony", value=0)
+friend_y = col2.number_input("Feral — Anthro", value=0)
+friend_z = col3.number_input("Simple — Detailed", value=0)
 
 friend_data = st.empty()  # Placeholder for friend data
 
