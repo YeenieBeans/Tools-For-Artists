@@ -204,7 +204,7 @@ st.markdown("---")
 
 # SECTION TWO: Add Your Friends
 st.header("Add Your Friends")
-st.markdown("Invite your friends to the artistic space by entering their names and artistic preferences.")
+st.markdown("Add your friends to the artistic style alignment plot.")
 
 # Create columns for friend input
 friend_col1, friend_col2, friend_col3, friend_col4 = st.columns([1, 1, 1, 1])
