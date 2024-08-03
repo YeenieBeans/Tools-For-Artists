@@ -137,7 +137,7 @@ def create_initial_plot():
                 showticklabels=False
             ),
             zaxis=dict(nticks=4, range=[-size, size], showbackground=False,
-                title_text='<b>Detailed ↔ Simple</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
+                title_text='<b>Simple ↔ Detailed</b>', title_font=dict(size=18, color=colors['desaturated_cream']),
                 tickvals=[-10, 10], ticktext=['', ''], tickfont=dict(color=colors['desaturated_cream']),
                 showticklabels=False
             ),
@@ -147,19 +147,11 @@ def create_initial_plot():
         ),
         annotations=[
             dict(
-                text="(This is an interactive plot you can drag! View options are in the upper-right corner.)",
-                x=0.5, y=0.92,  # Adjusted to be slightly below the title
-                xref='paper', yref='paper',
-                showarrow=False,
-                font=dict(size=14, color='#fafae9'),
-                align='center'
-            ),
-            dict(
-                text='Made by <a href="https://x.com/yeeniebeans" style="color:#6AC769; size=18"><b>YeenieBeans</b></a>',
+                text='<a href="https://x.com/yeeniebeans" style="color:#9876B6;">Made by YeenieBeans</a>',
                 x=0.5, y=0.01,  # Adjusted to be slightly below the title
                 xref='paper', yref='paper',
                 showarrow=False,
-                font=dict(size=14, color='#fafae9'),
+                font=dict(size=14, color=colors['lavender']),
                 align='center'
             )
         ],
@@ -182,11 +174,23 @@ Welcome to the 3D Artistic Alignment Plot! This tool helps you visualize where y
 # SECTION ONE: Your Artistic Alignment
 st.header("Discover Your Artistic Alignment")
 st.markdown("Use the sliders to determine your position on the artistic spectrum and see where you align in the 3D space.")
-col1, col2, col3, col4 = st.columns(4)
+
+# Create columns for input
+col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 username = col1.text_input("Name", "")
-x_value = col2.slider("Realistic ↔ Cartoony", -10, 10, 0)
-y_value = col3.slider("Feral ↔ Anthro", -10, 10, 0)
-z_value = col4.slider("Detailed ↔ Simple", -10, 10, 0)
+
+# Define sliders with custom labels
+x_value = col2.slider("Realism Level", -10, 10, 0, format="%d",
+                      help="Determine your level of realism vs. cartoon style")
+y_value = col3.slider("Feral ↔ Anthro", -10, 10, 0, format="%d",
+                      help="Determine your level of ferality vs. anthropomorphism")
+z_value = col4.slider("Detail Level", -10, 10, 0, format="%d",
+                      help="Determine your level of simplicity vs. detail")
+
+# Centered labels above sliders
+st.write("Centered labels for sliders")
+
+st.markdown("")
 
 if st.button("Submit"):
     plot.add_trace(go.Scatter3d(
@@ -202,13 +206,15 @@ if st.button("Submit"):
 st.markdown("---")
 
 # SECTION TWO: Add Your Friends
-st.header("Add Your Friends to the Artistic Space")
-st.markdown("Invite your friends to the artistic space by entering their names and artistic preferences. See how they compare to you!")
-friend_name = st.text_input("Friend's Name")
-col1, col2, col3 = st.columns(3)
-friend_x = col1.number_input("Friend's Realistic ↔ Cartoony", value=0)
-friend_y = col2.number_input("Friend's Feral ↔ Anthro", value=0)
-friend_z = col3.number_input("Friend's Detailed ↔ Simple", value=0)
+st.header("Add Your Friends")
+st.markdown("Invite your friends to the artistic space by entering their names and artistic preferences.")
+
+# Create columns for friend input
+friend_col1, friend_col2, friend_col3, friend_col4 = st.columns([1, 1, 1, 1])
+friend_name = friend_col1.text_input("Friend's Name")
+friend_x = friend_col2.number_input("Realistic ↔ Cartoony", value=0)
+friend_y = friend_col3.number_input("Feral ↔ Anthro", value=0)
+friend_z = friend_col4.number_input("Simple ↔ Detailed", value=0)
 
 friend_data = st.empty()  # Placeholder for friend data
 
@@ -250,7 +256,7 @@ for selected in friend_box:
 
 st.markdown("---")
 
-# SECTION THREE: Artistic Alignment Plot
-st.header("Visualize Artistic Alignment")
-st.markdown("Explore the 3D plot to see where you and your friends fit in the artistic spectrum.")
+# SECTION THREE: Artistic Style Alignment
+st.header("Artistic Style Alignment")
 st.plotly_chart(plot, use_container_width=True)
+st.markdown("(This is an interactive plot you can drag! View options are in the upper-right corner.)")
