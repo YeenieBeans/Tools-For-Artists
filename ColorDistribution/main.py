@@ -32,7 +32,7 @@ uploaded_file = st.file_uploader("Choose an image...", type=["png", "jpg", "jpeg
 
 if uploaded_file is not None:
     img = io.imread(uploaded_file)
-    st.image(img, caption='Uploaded Image', use_column_width=True)
+    st.image(img, caption='Uploaded Image', use_container_width=True)
     num_colors = st.slider("Number of Colors", 3, 10, 5)
     sensitivity = st.selectbox("Color Sensitivity", ['Very Low', 'Low', 'Medium', 'High', 'Very High'])
     sensitivity_dict = {'Very Low': 0, 'Low': 1, 'Medium': 2, 'High': 3, 'Very High': 4}
